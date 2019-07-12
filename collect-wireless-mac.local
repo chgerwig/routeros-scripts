@@ -7,7 +7,19 @@
 
 :local Identity [ / system identity get name ];
 
-:global GetMacVendor;
+# get MAC vendor
+:local GetMacVendor do={
+  :local Mac [ :tostr $1 ];
+
+  :do {
+    :local Vendor;
+    :set Vendor ([ / tool fetch check-certificate=yes-without-crl \
+        ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
+    :return $Vendor;
+  } on-error={
+    :return "unknown vendor";
+  }
+}
 
 :local PlaceBefore [ / interface wireless access-list find where comment="--- collected above ---" disabled ];
 :if ([ :len $PlaceBefore ] = 0) do={
