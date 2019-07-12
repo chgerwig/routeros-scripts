@@ -5,7 +5,7 @@
 # collect wireless mac adresses in access list
 # modified to run as stand alone script without notification
 
-:global Identity;
+:local Identity [ / system identity get name ];
 
 :global GetMacVendor;
 
