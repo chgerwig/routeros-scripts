@@ -6,7 +6,7 @@
 # check for RouterOS update, send notification and/or install
 
 # enter your Email address below
-:local EmailTo "any@example.com";
+:local EmailTo "c@gerwig.com";
 
 :local Identity [ / system identity get name ];
 
@@ -41,7 +41,7 @@
   :local Message [ :tostr $2 ];
   :local Attach [ :tostr $3 ];
 
-  :lcal UrlEncode;
+  :local UrlEncode;
 
     :do {
       / tool e-mail send to=$EmailTo \
@@ -49,7 +49,9 @@
     } on-error={
       :log warning "Failed sending notification mail!";
     }
- 
+} 
+
+# main script check for ros updates
 :local Update do={
   :if ([ / system script print count-only where name="packages-update" ] > 0) do={
     / system script run packages-update;
@@ -85,12 +87,6 @@
     } else={
       :put "Canceled...";
     }
-  }
-
-  :if ($SentRouterosUpdateNotification = $LatestVersion) do={
-    :log info ("Already sent the RouterOS update notification for version " . \
-        $LatestVersion . ".");
-    :error "Already sent notification.";
   }
 
   $SendNotification ("RouterOS update") \
