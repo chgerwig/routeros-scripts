@@ -13,7 +13,7 @@
 
   :do {
     :local Vendor;
-    :set Vendor ([ / tool fetch check-certificate=yes-without-crl \
+    :set Vendor ([ / tool fetch \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
