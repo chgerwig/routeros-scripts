@@ -6,7 +6,7 @@
 # check for RouterOS update, send notification and/or install
 
 # enter your Email address below
-:local EmailTo "c@gerwig.com";
+:local EmailTo "example@example.com";
 
 :local Identity [ / system identity get name ];
 
